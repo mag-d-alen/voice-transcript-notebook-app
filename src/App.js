@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 const mic = new SpeechRecognition();
 mic.continuous = true;
 mic.interimResults = false;
-mic.lang = "en-GB";
+mic.lang = 'en-GB';
 
 function App() {
   const [listening, setListening] = useState(false);
-  const [note, setNote] = useState("");
-  const [savedNotes, setSavedNotes] = useState("");
+  const [note, setNote] = useState('');
+  const [savedNotes, setSavedNotes] = useState('');
 
   useEffect(() => {
     handleListening();
@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     setListening(false);
-    setNote("");
+    setNote('');
   }, [savedNotes]);
 
   const handleListening = () => {
@@ -49,58 +49,51 @@ function App() {
   };
 
   return (
-    <React.Fragment>
-      <h1>Voice Notes</h1>
-      <div className="container">
-        <div className="box">
-          <h2>Current Note</h2>
-          {listening ? (
-            <span>
-              mic ON
-              <span role="img" aria-label="on">
-                🔊{" "}
-              </span>
+    <div className="container">
+      <h1 className="title">Voice Notes</h1>
+      <div className="box">
+        <h2>Current Note</h2>
+        {listening ? (
+          <span>
+            mic ON
+            <span role="img" aria-label="on">
+              🔊{' '}
             </span>
-          ) : (
-            <span>
-              <span role="img" aria-label="off">
-                🔇{" "}
-              </span>
-              mic OFF
+          </span>
+        ) : (
+          <span>
+            <span role="img" aria-label="off">
+              🔇{' '}
             </span>
-          )}
-          <p>{note}</p>
-          <button onClick={() => setListening((prevState) => !prevState)}>
-            ON/OFF
-          </button>
-          <br />
-          <button onClick={handleSavedNotes} disabled={!note}>
-            Save the note
-          </button>
-          <button
-            onClick={() => {
-              setNote("");
-              setListening(false);
-            }}
-            disabled={!note}
-          >
-            Clear the note
-          </button>
-        </div>
-        <div className="box">
-          <h2>Notes</h2>
-          <ul>
-            {savedNotes
-              ? savedNotes.map((note) => (
-                  <li onClick={handleDelete} key={note} id={note}>
-                    {note}
-                  </li>
-                ))
-              : null}
-          </ul>
-        </div>
+            mic OFF
+          </span>
+        )}
+        <p>{note}</p>
+        <button
+          className="btn"
+          onClick={() => setListening((prevState) => !prevState)}
+        >
+          ON/OFF
+        </button>
+        <br />
+        <button className="btn" onClick={handleSavedNotes} disabled={!note}>
+          Save the note
+        </button>
       </div>
-    </React.Fragment>
+      <div className="box">
+        <h2>Notes</h2>
+        <p>Click to delete a note</p>
+        <ul>
+          {savedNotes
+            ? savedNotes.map((note) => (
+                <li onClick={handleDelete} key={note} id={note}>
+                  {note}
+                </li>
+              ))
+            : null}
+        </ul>
+      </div>
+    </div>
   );
 }
 export default App;
